@@ -1,139 +1,38 @@
-# Vinit1014.github.io
-Name: Vinit Prajapati
-Rollno: 21BCP339
-Login form(ViteJS + NodeJS + MySQL)
-Overview
-This project is a Login form. It contains frontend, backend, and MySQL services, each containerized using Docker. This repository provides the necessary Dockerfiles and a Docker Compose configuration (docker-compose.yaml) to run the entire application stack.
+1. Project Download:
+   - Download a project containing both frontend and backend code with a MySQL database. For example, a project with a simple form frontend, a Flask backend, and MySQL database.
 
-Prerequisites
-Make sure you have Docker installed on your system. You can download and install Docker from here.
+2. Making Dockerfile:
+   - Write Dockerfiles for frontend, backend, and database.
+   - Each Dockerfile should define the necessary environment and dependencies for the respective component.
+   - Ensure that the Dockerfiles correctly set up the container environment for running the frontend, backend, and database components.
 
-Getting Started
-To get started with this project, follow these steps:
+3. DockerHub Repository:
+   - Create a new repository on Docker Hub where you will push your Docker images.
+   - Log in to Docker Hub if you haven't already.
 
-Clone this repository to your local machine:
-bash
-git clone https://github.com/your-username/your-repository.git
-Navigate to the project directory:
-bash
-cd your-repository
-Build the Docker images:
-bash
-docker pull vinits1014992/cloudia2
-# Add commands to build your Docker images
-Run the Docker containers using Docker Compose:
-bash
-Copy code
-# Add command to run Docker Compose
-Access the application:Once the containers are running, you can access the frontend application at http://localhost:frontend-port, the backend API at http://localhost:backend-port, and MySQL at http://localhost:mysql-port.
-Dockerfile Details
-Frontend Dockerfile:
-Dockerfile
-# Use Node.js 18 as the base image
-FROM node:18 AS build
+4. Creating Images and Containers:
+   - Build the Docker images for frontend, backend, and database:
+     
+     docker build -t username/Reponame .
+     
+     Replace username with your Docker Hub username and Reponame with the name of your repository.
+   - Use Docker Compose to bring up the containers:
+     
+     docker-compose up
+    
 
-# Set the working directory in the container
-WORKDIR /app
+5. Log in to Docker Hub:
+   - Log in to Docker Hub using the following command:
+     
+     docker login
+    
+   - Enter your Docker Hub username and password when prompted.
 
-# Copy package.json and package-lock.json to the working directory
-COPY package.json package-lock.json ./
+6. Push the Images and Containers:
+   - Push your Docker images to Docker Hub using the following command:
+   
+     docker push username/Reponame
+    
+     Replace username with your Docker Hub username and Reponame with the name of your repository.
 
-# Install dependencies
-RUN npm install
-
-# Copy the rest of the application code to the working directory
-COPY . .
-
-# Build the application
-RUN npm run build
-
-# Start a new stage for the production image
-FROM node:18 AS production
-
-# Set the working directory in the container
-WORKDIR /app
-
-# Copy only the built artifacts from the previous stage
-COPY --from=build /app/dist ./build
-
-# Install serve to run the production build
-RUN npm install -g serve
-
-# Expose port 3000 to the outside world
-EXPOSE 3000
-
-# Command to run the production build
-CMD ["serve", "-s", "build"]
-
-
-# Add your frontend Dockerfile content here
-Backend Dockerfile:
-Dockerfile
-# Use an official Node.js runtime as the base image
-FROM node:latest
-
-# Set the working directory in the container
-WORKDIR /app
-
-# Copy package.json and package-lock.json to the working directory
-COPY package*.json ./
-
-# Install dependencies
-RUN npm install
-
-# Copy the entire backend directory into the container
-COPY . .
-
-# Expose port 8000 to the outside world
-EXPOSE 8000
-
-# Command to run the backend server
-CMD ["node", "index.js"]
-
-# Add your backend Dockerfile content here
-MySQL Dockerfile docker-compose.yaml:
-Dockerfile
-version: '3'
-
-services:
-  frontend:
-    build:
-      context: ./full-stack  # Path to the directory containing frontend Dockerfile
-      dockerfile: Dockerfile
-    ports:
-      - "5173:3000"  # Map container port 80 to host port 3000
-    networks:
-      - mynetwork
-
-  backend:
-    build:
-      context: ./server  # Path to the directory containing backend Dockerfile
-      dockerfile: Dockerfile
-    ports:
-      - "8080:8000"  # Map container port 8000 to host port 8000
-    depends_on:
-      - db  # Assuming you have a MySQL database service named 'db'
-    networks:
-      - mynetwork
-
-  db:
-    image: mysql:latest
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: "password"
-      MYSQL_DATABASE: "fullstackcloud"
-    ports:
-      - "3306:3306"  # Map container port 3306 to host port 3306
-    networks:
-      - mynetwork
-
-networks:
-  mynetwork:
-
-# Add your MySQL Dockerfile content here
-Docker Images
-Frontend Image: fullstack-frontend
-Backend Image: fullstack-backend
-MySQL Image: fullstack-mysql
-Contributing
-Contributions are welcome! Please feel free to submit a pull request or open an issue if you encounter any problems.
+By following these steps, you should be able to build Docker images for your frontend, backend, and database components, run them as containers, and then push them to Docker Hub for deployment or sharing. Make sure to replace placeholder values like username and Reponame with your actual Docker Hub username and repository name.
