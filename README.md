@@ -4,7 +4,7 @@ Vinit Prajapati
 1. Project Download:
    - Download a project containing both frontend and backend code with a MySQL database. For example, a project with a simple form frontend, a Nodejs backend, and MySQL database.
 
-2. Making Dockerfile:
+2. Making Dockerfile: 
    - Write Dockerfiles for frontend, backend, and database.
 
      <h1>Frontend Dockerfile:</h1>
